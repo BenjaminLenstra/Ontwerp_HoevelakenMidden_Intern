@@ -44,8 +44,9 @@
 <script src="js/wNumb.js"></script>
         <script src="data/Gebruiksfuncties_1.js"></script>
         <script src="data/Ontwerp_2.js"></script>
-        <script src="data/Bomen_3.js"></script>
-        <script src="data/Kansen_4.js"></script>
+        <script src="data/GroenonderhoudSlijpkruik_3.js"></script>
+        <script src="data/Bomen_4.js"></script>
+        <script src="data/Kansen_5.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -64,7 +65,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[52.17002159663119,5.462242192687805],[52.17203119649889,5.475903914069216]]);
+        }).fitBounds([[52.17307835035055,5.455334083896273],[52.175087149986496,5.468996433569515]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -698,7 +699,129 @@
         });
         bounds_group.addLayer(layer_Ontwerp_2);
         map.addLayer(layer_Ontwerp_2);
-        function pop_Bomen_3(feature, layer) {
+        function pop_GroenonderhoudSlijpkruik_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (var i in e.target._eventParents) {
+                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
+                            e.target._eventParents[i].resetStyle(e.target);
+                        }
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td class="visible-with-data" id="id" colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Oppervlakte" colspan="2"><strong>Oppervlakte</strong><br />' + (feature.properties['Oppervlakte'] !== null ? autolinker.link(String(feature.properties['Oppervlakte']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Maatregel" colspan="2"><strong>Maatregel</strong><br />' + (feature.properties['Maatregel'] !== null ? autolinker.link(String(feature.properties['Maatregel']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_GroenonderhoudSlijpkruik_3_0(feature) {
+            switch(String(feature.properties['Maatregel'])) {
+                case 'Inboet':
+                    return {
+                pane: 'pane_GroenonderhoudSlijpkruik_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,0,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Inboet;Snoeien':
+                    return {
+                pane: 'pane_GroenonderhoudSlijpkruik_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(102,255,153,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Omvormen beheergroep middels inboet':
+                    return {
+                pane: 'pane_GroenonderhoudSlijpkruik_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,51,102,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Renoveren':
+                    return {
+                pane: 'pane_GroenonderhoudSlijpkruik_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,51,204,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Snoeien':
+                    return {
+                pane: 'pane_GroenonderhoudSlijpkruik_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,102,0,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_GroenonderhoudSlijpkruik_3');
+        map.getPane('pane_GroenonderhoudSlijpkruik_3').style.zIndex = 403;
+        map.getPane('pane_GroenonderhoudSlijpkruik_3').style['mix-blend-mode'] = 'normal';
+        var layer_GroenonderhoudSlijpkruik_3 = new L.geoJson(json_GroenonderhoudSlijpkruik_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_GroenonderhoudSlijpkruik_3',
+            layerName: 'layer_GroenonderhoudSlijpkruik_3',
+            pane: 'pane_GroenonderhoudSlijpkruik_3',
+            onEachFeature: pop_GroenonderhoudSlijpkruik_3,
+            style: style_GroenonderhoudSlijpkruik_3_0,
+        });
+        bounds_group.addLayer(layer_GroenonderhoudSlijpkruik_3);
+        map.addLayer(layer_GroenonderhoudSlijpkruik_3);
+        function pop_Bomen_4(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -745,9 +868,9 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_Bomen_3_0() {
+        function style_Bomen_4_0() {
             return {
-                pane: 'pane_Bomen_3',
+                pane: 'pane_Bomen_4',
                 radius: 4.0,
                 opacity: 1,
                 color: 'rgba(49,133,63,1.0)',
@@ -761,27 +884,27 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_Bomen_3');
-        map.getPane('pane_Bomen_3').style.zIndex = 403;
-        map.getPane('pane_Bomen_3').style['mix-blend-mode'] = 'normal';
-        var layer_Bomen_3 = new L.geoJson(json_Bomen_3, {
+        map.createPane('pane_Bomen_4');
+        map.getPane('pane_Bomen_4').style.zIndex = 404;
+        map.getPane('pane_Bomen_4').style['mix-blend-mode'] = 'normal';
+        var layer_Bomen_4 = new L.geoJson(json_Bomen_4, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Bomen_3',
-            layerName: 'layer_Bomen_3',
-            pane: 'pane_Bomen_3',
-            onEachFeature: pop_Bomen_3,
+            dataVar: 'json_Bomen_4',
+            layerName: 'layer_Bomen_4',
+            pane: 'pane_Bomen_4',
+            onEachFeature: pop_Bomen_4,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_Bomen_3_0(feature));
+                return L.circleMarker(latlng, style_Bomen_4_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Bomen_3);
-        map.addLayer(layer_Bomen_3);
-        function pop_Kansen_4(feature, layer) {
+        bounds_group.addLayer(layer_Bomen_4);
+        map.addLayer(layer_Bomen_4);
+        function pop_Kansen_5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -822,11 +945,11 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_Kansen_4_0(feature) {
+        function style_Kansen_5_0(feature) {
             switch(String(feature.properties['Thema'])) {
                 case 'Biodiversiteit':
                     return {
-                pane: 'pane_Kansen_4',
+                pane: 'pane_Kansen_5',
                 radius: 8.0,
                 opacity: 1,
                 color: 'rgba(61,128,53,1.0)',
@@ -842,7 +965,7 @@
                     break;
                 case 'Verkeer':
                     return {
-                pane: 'pane_Kansen_4',
+                pane: 'pane_Kansen_5',
                 radius: 8.0,
                 opacity: 1,
                 color: 'rgba(237,0,0,1.0)',
@@ -858,7 +981,7 @@
                     break;
                 case 'Water':
                     return {
-                pane: 'pane_Kansen_4',
+                pane: 'pane_Kansen_5',
                 radius: 8.0,
                 opacity: 1,
                 color: 'rgba(0,136,255,1.0)',
@@ -874,29 +997,30 @@
                     break;
             }
         }
-        map.createPane('pane_Kansen_4');
-        map.getPane('pane_Kansen_4').style.zIndex = 404;
-        map.getPane('pane_Kansen_4').style['mix-blend-mode'] = 'normal';
-        var layer_Kansen_4 = new L.geoJson(json_Kansen_4, {
+        map.createPane('pane_Kansen_5');
+        map.getPane('pane_Kansen_5').style.zIndex = 405;
+        map.getPane('pane_Kansen_5').style['mix-blend-mode'] = 'normal';
+        var layer_Kansen_5 = new L.geoJson(json_Kansen_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Kansen_4',
-            layerName: 'layer_Kansen_4',
-            pane: 'pane_Kansen_4',
-            onEachFeature: pop_Kansen_4,
+            dataVar: 'json_Kansen_5',
+            layerName: 'layer_Kansen_5',
+            pane: 'pane_Kansen_5',
+            onEachFeature: pop_Kansen_5,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_Kansen_4_0(feature));
+                return L.circleMarker(latlng, style_Kansen_5_0(feature));
             },
         });
-        bounds_group.addLayer(layer_Kansen_4);
-        map.addLayer(layer_Kansen_4);
+        bounds_group.addLayer(layer_Kansen_5);
+        map.addLayer(layer_Kansen_5);
         var overlaysTree = [
-            {label: 'Kansen<br /><table><tr><td style="text-align: center;"><img src="legend/Kansen_4_Biodiversiteit0.png" /></td><td>Biodiversiteit</td></tr><tr><td style="text-align: center;"><img src="legend/Kansen_4_Verkeer1.png" /></td><td>Verkeer</td></tr><tr><td style="text-align: center;"><img src="legend/Kansen_4_Water2.png" /></td><td>Water</td></tr></table>', layer: layer_Kansen_4},
-            {label: '<img src="legend/Bomen_3.png" /> Bomen', layer: layer_Bomen_3},
+            {label: 'Kansen<br /><table><tr><td style="text-align: center;"><img src="legend/Kansen_5_Biodiversiteit0.png" /></td><td>Biodiversiteit</td></tr><tr><td style="text-align: center;"><img src="legend/Kansen_5_Verkeer1.png" /></td><td>Verkeer</td></tr><tr><td style="text-align: center;"><img src="legend/Kansen_5_Water2.png" /></td><td>Water</td></tr></table>', layer: layer_Kansen_5},
+            {label: '<img src="legend/Bomen_4.png" /> Bomen', layer: layer_Bomen_4},
+            {label: 'Groenonderhoud Slijpkruik<br /><table><tr><td style="text-align: center;"><img src="legend/GroenonderhoudSlijpkruik_3_Inboet0.png" /></td><td>Inboet</td></tr><tr><td style="text-align: center;"><img src="legend/GroenonderhoudSlijpkruik_3_InboetSnoeien1.png" /></td><td>Inboet; Snoeien</td></tr><tr><td style="text-align: center;"><img src="legend/GroenonderhoudSlijpkruik_3_Omvormenbeheergroepmiddelsinboet2.png" /></td><td>Omvormen beheergroep middels inboet</td></tr><tr><td style="text-align: center;"><img src="legend/GroenonderhoudSlijpkruik_3_Renoveren3.png" /></td><td>Renoveren</td></tr><tr><td style="text-align: center;"><img src="legend/GroenonderhoudSlijpkruik_3_Snoeien4.png" /></td><td>Snoeien</td></tr></table>', layer: layer_GroenonderhoudSlijpkruik_3},
             {label: 'Ontwerp<br /><table><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Aanlegfietspad0.png" /></td><td>Aanleg fietspad</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Fietsstraatinasfalt1.png" /></td><td>Fietsstraat in asfalt</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Fietsstraatinasfaltmiddenstrookmetafwijkendetoplaag2.png" /></td><td>Fietsstraat in asfalt; middenstrook met afwijkende toplaag</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Instellenschoolzone3.png" /></td><td>Instellen schoolzone</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Nieuweinrichtinghofje4.png" /></td><td>Nieuwe inrichting hofje</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Trottoirverwijderen5.png" /></td><td>Trottoir verwijderen</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Verwijderenparkeerstrook6.png" /></td><td>Verwijderen parkeerstrook</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_Vervangenverharding7.png" /></td><td>Vervangen verharding</td></tr><tr><td style="text-align: center;"><img src="legend/Ontwerp_2_GeenmaatregelBuitendescope8.png" /></td><td>Geen maatregel / Buiten de scope</td></tr></table>', layer: layer_Ontwerp_2},
             {label: 'Gebruiksfuncties<br /><table><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Berm0.png" /></td><td>Berm</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Bibliotheek1.png" /></td><td>Bibliotheek</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Bloemrijkgras2.png" /></td><td>Bloemrijk gras</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Blokhaag3.png" /></td><td>Blokhaag</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Bodembedekkers4.png" /></td><td>Bodembedekkers</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Bosplantsoen5.png" /></td><td>Bosplantsoen</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Fijnesierheester6.png" /></td><td>Fijne sierheester</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Gazon7.png" /></td><td>Gazon</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Greppel8.png" /></td><td>Greppel</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Hondenuitlaatplaats9.png" /></td><td>Hondenuitlaatplaats</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Natuurvriendelijkeoever10.png" /></td><td>Natuurvriendelijke oever</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Schoolplein11.png" /></td><td>Schoolplein</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Sloot12.png" /></td><td>Sloot</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Sporthal13.png" /></td><td>Sporthal</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Struikrozen14.png" /></td><td>Struikrozen</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Vijver15.png" /></td><td>Vijver</td></tr><tr><td style="text-align: center;"><img src="legend/Gebruiksfuncties_1_Waterloop16.png" /></td><td>Waterloop</td></tr></table>', layer: layer_Gebruiksfuncties_1},
             {label: "CartoDb Positron", layer: layer_CartoDbPositron_0},]
@@ -930,7 +1054,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"Gebruiksfunctie": "str","Thema": "str","Maatregelen voor de bomen in het ontwerp": "str","Maatregel": "str"};
+        var Filters = {"Maatregel": "str","Gebruiksfunctie": "str","Thema": "str","Maatregelen voor de bomen in het ontwerp": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -1020,6 +1144,52 @@
           }
           })
         }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Maatregel = document.createElement('div');
+            div_Maatregel.id = "div_Maatregel";
+            div_Maatregel.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Maatregel);
+            sel_Maatregel = document.createElement('select');
+            sel_Maatregel.multiple = true;
+            sel_Maatregel.size = 10;
+            sel_Maatregel.id = "sel_Maatregel";
+            var Maatregel_options_str = "<option value='' unselected></option>";
+            sel_Maatregel.onchange = function(){filterFunc()};
+            Maatregel_options_str  += '<option value="NULL">NULL</option>';
+            Maatregel_options_str  += '<option value="Aanleg fietspad">Aanleg fietspad</option>';
+            Maatregel_options_str  += '<option value="Fietsstraat in asfalt">Fietsstraat in asfalt</option>';
+            Maatregel_options_str  += '<option value="Fietsstraat in asfalt; middenstrook met afwijkende toplaag">Fietsstraat in asfalt; middenstrook met afwijkende toplaag</option>';
+            Maatregel_options_str  += '<option value="Inboet">Inboet</option>';
+            Maatregel_options_str  += '<option value="Inboet;Snoeien">Inboet;Snoeien</option>';
+            Maatregel_options_str  += '<option value="Instellen schoolzone">Instellen schoolzone</option>';
+            Maatregel_options_str  += '<option value="Kappen">Kappen</option>';
+            Maatregel_options_str  += '<option value="Nieuwe inrichting hofje">Nieuwe inrichting hofje</option>';
+            Maatregel_options_str  += '<option value="Omvormen beheergroep middels inboet">Omvormen beheergroep middels inboet</option>';
+            Maatregel_options_str  += '<option value="Renoveren">Renoveren</option>';
+            Maatregel_options_str  += '<option value="Snoeien">Snoeien</option>';
+            Maatregel_options_str  += '<option value="Trottoir verwijderen">Trottoir verwijderen</option>';
+            Maatregel_options_str  += '<option value="Vervangen verharding">Vervangen verharding</option>';
+            Maatregel_options_str  += '<option value="Verwijderen parkeerstrook">Verwijderen parkeerstrook</option>';
+            Maatregel_options_str  += '<option value="Voedselbos">Voedselbos</option>';
+            Maatregel_options_str  += '<option value="Wortelschermen plaatsen">Wortelschermen plaatsen</option>';
+            sel_Maatregel.innerHTML = Maatregel_options_str;
+            div_Maatregel.appendChild(sel_Maatregel);
+            var lab_Maatregel = document.createElement('div');
+            lab_Maatregel.innerHTML = 'Maatregel';
+            lab_Maatregel.className = 'filterlabel';
+            div_Maatregel.appendChild(lab_Maatregel);
+            var reset_Maatregel = document.createElement('div');
+            reset_Maatregel.innerHTML = 'clear filter';
+            reset_Maatregel.className = 'filterlabel';
+            reset_Maatregel.onclick = function() {
+                var options = document.getElementById("sel_Maatregel").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Maatregel.appendChild(reset_Maatregel);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_Gebruiksfunctie = document.createElement('div');
@@ -1124,47 +1294,6 @@
                 filterFunc();
             };
             div_Maatregelenvoordebomeninhetontwerp.appendChild(reset_Maatregelenvoordebomeninhetontwerp);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Maatregel = document.createElement('div');
-            div_Maatregel.id = "div_Maatregel";
-            div_Maatregel.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Maatregel);
-            sel_Maatregel = document.createElement('select');
-            sel_Maatregel.multiple = true;
-            sel_Maatregel.size = 10;
-            sel_Maatregel.id = "sel_Maatregel";
-            var Maatregel_options_str = "<option value='' unselected></option>";
-            sel_Maatregel.onchange = function(){filterFunc()};
-            Maatregel_options_str  += '<option value="NULL">NULL</option>';
-            Maatregel_options_str  += '<option value="Aanleg fietspad">Aanleg fietspad</option>';
-            Maatregel_options_str  += '<option value="Fietsstraat in asfalt">Fietsstraat in asfalt</option>';
-            Maatregel_options_str  += '<option value="Fietsstraat in asfalt; middenstrook met afwijkende toplaag">Fietsstraat in asfalt; middenstrook met afwijkende toplaag</option>';
-            Maatregel_options_str  += '<option value="Instellen schoolzone">Instellen schoolzone</option>';
-            Maatregel_options_str  += '<option value="Kappen">Kappen</option>';
-            Maatregel_options_str  += '<option value="Nieuwe inrichting hofje">Nieuwe inrichting hofje</option>';
-            Maatregel_options_str  += '<option value="Trottoir verwijderen">Trottoir verwijderen</option>';
-            Maatregel_options_str  += '<option value="Vervangen verharding">Vervangen verharding</option>';
-            Maatregel_options_str  += '<option value="Verwijderen parkeerstrook">Verwijderen parkeerstrook</option>';
-            Maatregel_options_str  += '<option value="Voedselbos">Voedselbos</option>';
-            Maatregel_options_str  += '<option value="Wortelschermen plaatsen">Wortelschermen plaatsen</option>';
-            sel_Maatregel.innerHTML = Maatregel_options_str;
-            div_Maatregel.appendChild(sel_Maatregel);
-            var lab_Maatregel = document.createElement('div');
-            lab_Maatregel.innerHTML = 'Maatregel';
-            lab_Maatregel.className = 'filterlabel';
-            div_Maatregel.appendChild(lab_Maatregel);
-            var reset_Maatregel = document.createElement('div');
-            reset_Maatregel.innerHTML = 'clear filter';
-            reset_Maatregel.className = 'filterlabel';
-            reset_Maatregel.onclick = function() {
-                var options = document.getElementById("sel_Maatregel").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Maatregel.appendChild(reset_Maatregel);
         </script>        
     </body>
 </html>
