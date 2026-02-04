@@ -65,7 +65,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[52.17307835035055,5.455334083896273],[52.175087149986496,5.468996433569515]]);
+        }).fitBounds([[52.17060862129485,5.454447829034734],[52.172616925455515,5.467534474551991]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -535,10 +535,10 @@
                         <td class="visible-with-data" id="Nieuwe situatie" colspan="2"><strong>Nieuwe situatie</strong><br />' + (feature.properties['Nieuwe situatie'] !== null ? '<img src="images/' + String(feature.properties['Nieuwe situatie']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['field_17'] !== null ? autolinker.link(String(feature.properties['field_17']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['field_18'] !== null ? '<img src="images/' + String(feature.properties['field_18']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['field_18'] !== null ? '<img src="images/' + String(feature.properties['field_18']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['field_19'] !== null ? autolinker.link(String(feature.properties['field_19']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -713,6 +713,15 @@
             var popupContent = '<table>\
                     <tr>\
                         <td class="visible-with-data" id="id" colspan="2"><strong>id</strong><br />' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="openbareruimte" colspan="2"><strong>openbareruimte</strong><br />' + (feature.properties['openbareruimte'] !== null ? autolinker.link(String(feature.properties['openbareruimte']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Type" colspan="2"><strong>Type</strong><br />' + (feature.properties['Type'] !== null ? autolinker.link(String(feature.properties['Type']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="Gebruiksfunctie" colspan="2"><strong>Gebruiksfunctie</strong><br />' + (feature.properties['Gebruiksfunctie'] !== null ? autolinker.link(String(feature.properties['Gebruiksfunctie']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td class="visible-with-data" id="Oppervlakte" colspan="2"><strong>Oppervlakte</strong><br />' + (feature.properties['Oppervlakte'] !== null ? autolinker.link(String(feature.properties['Oppervlakte']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -1054,7 +1063,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"Maatregel": "str","Gebruiksfunctie": "str","Thema": "str","Maatregelen voor de bomen in het ontwerp": "str"};
+        var Filters = {"Maatregelen voor de bomen in het ontwerp": "str","Thema": "str","Gebruiksfunctie": "str","Maatregel": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -1146,6 +1155,110 @@
         }
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
+            var div_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
+            div_Maatregelenvoordebomeninhetontwerp.id = "div_Maatregelenvoordebomeninhetontwerp";
+            div_Maatregelenvoordebomeninhetontwerp.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Maatregelenvoordebomeninhetontwerp);
+            sel_Maatregelenvoordebomeninhetontwerp = document.createElement('select');
+            sel_Maatregelenvoordebomeninhetontwerp.multiple = true;
+            sel_Maatregelenvoordebomeninhetontwerp.size = 2;
+            sel_Maatregelenvoordebomeninhetontwerp.id = "sel_Maatregelenvoordebomeninhetontwerp";
+            var Maatregelenvoordebomeninhetontwerp_options_str = "<option value='' unselected></option>";
+            sel_Maatregelenvoordebomeninhetontwerp.onchange = function(){filterFunc()};
+            Maatregelenvoordebomeninhetontwerp_options_str  += '<option value="GEEN maatregel(en) treffen">GEEN maatregel(en) treffen</option>';
+            Maatregelenvoordebomeninhetontwerp_options_str  += '<option value="WÉL maatregel(en) treffen">WÉL maatregel(en) treffen</option>';
+            sel_Maatregelenvoordebomeninhetontwerp.innerHTML = Maatregelenvoordebomeninhetontwerp_options_str;
+            div_Maatregelenvoordebomeninhetontwerp.appendChild(sel_Maatregelenvoordebomeninhetontwerp);
+            var lab_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
+            lab_Maatregelenvoordebomeninhetontwerp.innerHTML = 'Maatregelen voor de bomen in het ontwerp';
+            lab_Maatregelenvoordebomeninhetontwerp.className = 'filterlabel';
+            div_Maatregelenvoordebomeninhetontwerp.appendChild(lab_Maatregelenvoordebomeninhetontwerp);
+            var reset_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
+            reset_Maatregelenvoordebomeninhetontwerp.innerHTML = 'clear filter';
+            reset_Maatregelenvoordebomeninhetontwerp.className = 'filterlabel';
+            reset_Maatregelenvoordebomeninhetontwerp.onclick = function() {
+                var options = document.getElementById("sel_Maatregelenvoordebomeninhetontwerp").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Maatregelenvoordebomeninhetontwerp.appendChild(reset_Maatregelenvoordebomeninhetontwerp);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Thema = document.createElement('div');
+            div_Thema.id = "div_Thema";
+            div_Thema.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Thema);
+            sel_Thema = document.createElement('select');
+            sel_Thema.multiple = true;
+            sel_Thema.size = 3;
+            sel_Thema.id = "sel_Thema";
+            var Thema_options_str = "<option value='' unselected></option>";
+            sel_Thema.onchange = function(){filterFunc()};
+            Thema_options_str  += '<option value="Biodiversiteit">Biodiversiteit</option>';
+            Thema_options_str  += '<option value="Verkeer">Verkeer</option>';
+            Thema_options_str  += '<option value="Water">Water</option>';
+            sel_Thema.innerHTML = Thema_options_str;
+            div_Thema.appendChild(sel_Thema);
+            var lab_Thema = document.createElement('div');
+            lab_Thema.innerHTML = 'Thema';
+            lab_Thema.className = 'filterlabel';
+            div_Thema.appendChild(lab_Thema);
+            var reset_Thema = document.createElement('div');
+            reset_Thema.innerHTML = 'clear filter';
+            reset_Thema.className = 'filterlabel';
+            reset_Thema.onclick = function() {
+                var options = document.getElementById("sel_Thema").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Thema.appendChild(reset_Thema);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Gebruiksfunctie = document.createElement('div');
+            div_Gebruiksfunctie.id = "div_Gebruiksfunctie";
+            div_Gebruiksfunctie.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Gebruiksfunctie);
+            sel_Gebruiksfunctie = document.createElement('select');
+            sel_Gebruiksfunctie.multiple = true;
+            sel_Gebruiksfunctie.size = 10;
+            sel_Gebruiksfunctie.id = "sel_Gebruiksfunctie";
+            var Gebruiksfunctie_options_str = "<option value='' unselected></option>";
+            sel_Gebruiksfunctie.onchange = function(){filterFunc()};
+            Gebruiksfunctie_options_str  += '<option value="NULL">NULL</option>';
+            Gebruiksfunctie_options_str  += '<option value="Berm">Berm</option>';
+            Gebruiksfunctie_options_str  += '<option value="Bibliotheek ">Bibliotheek </option>';
+            Gebruiksfunctie_options_str  += '<option value="Hondenuitlaatplaats">Hondenuitlaatplaats</option>';
+            Gebruiksfunctie_options_str  += '<option value="Natuurvriendelijke oever">Natuurvriendelijke oever</option>';
+            Gebruiksfunctie_options_str  += '<option value="Schoolplein">Schoolplein</option>';
+            Gebruiksfunctie_options_str  += '<option value="Sloot">Sloot</option>';
+            Gebruiksfunctie_options_str  += '<option value="Speelplaats">Speelplaats</option>';
+            Gebruiksfunctie_options_str  += '<option value="Sporthal ">Sporthal </option>';
+            Gebruiksfunctie_options_str  += '<option value="Trapveld">Trapveld</option>';
+            Gebruiksfunctie_options_str  += '<option value="Vijver">Vijver</option>';
+            Gebruiksfunctie_options_str  += '<option value="Vrije Speelruimte">Vrije Speelruimte</option>';
+            sel_Gebruiksfunctie.innerHTML = Gebruiksfunctie_options_str;
+            div_Gebruiksfunctie.appendChild(sel_Gebruiksfunctie);
+            var lab_Gebruiksfunctie = document.createElement('div');
+            lab_Gebruiksfunctie.innerHTML = 'Gebruiksfunctie';
+            lab_Gebruiksfunctie.className = 'filterlabel';
+            div_Gebruiksfunctie.appendChild(lab_Gebruiksfunctie);
+            var reset_Gebruiksfunctie = document.createElement('div');
+            reset_Gebruiksfunctie.innerHTML = 'clear filter';
+            reset_Gebruiksfunctie.className = 'filterlabel';
+            reset_Gebruiksfunctie.onclick = function() {
+                var options = document.getElementById("sel_Gebruiksfunctie").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Gebruiksfunctie.appendChild(reset_Gebruiksfunctie);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
             var div_Maatregel = document.createElement('div');
             div_Maatregel.id = "div_Maatregel";
             div_Maatregel.className= "filterselect";
@@ -1190,110 +1303,6 @@
                 filterFunc();
             };
             div_Maatregel.appendChild(reset_Maatregel);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Gebruiksfunctie = document.createElement('div');
-            div_Gebruiksfunctie.id = "div_Gebruiksfunctie";
-            div_Gebruiksfunctie.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Gebruiksfunctie);
-            sel_Gebruiksfunctie = document.createElement('select');
-            sel_Gebruiksfunctie.multiple = true;
-            sel_Gebruiksfunctie.size = 10;
-            sel_Gebruiksfunctie.id = "sel_Gebruiksfunctie";
-            var Gebruiksfunctie_options_str = "<option value='' unselected></option>";
-            sel_Gebruiksfunctie.onchange = function(){filterFunc()};
-            Gebruiksfunctie_options_str  += '<option value="NULL">NULL</option>';
-            Gebruiksfunctie_options_str  += '<option value="Berm">Berm</option>';
-            Gebruiksfunctie_options_str  += '<option value="Bibliotheek ">Bibliotheek </option>';
-            Gebruiksfunctie_options_str  += '<option value="Hondenuitlaatplaats">Hondenuitlaatplaats</option>';
-            Gebruiksfunctie_options_str  += '<option value="Natuurvriendelijke oever">Natuurvriendelijke oever</option>';
-            Gebruiksfunctie_options_str  += '<option value="Schoolplein">Schoolplein</option>';
-            Gebruiksfunctie_options_str  += '<option value="Sloot">Sloot</option>';
-            Gebruiksfunctie_options_str  += '<option value="Speelplaats">Speelplaats</option>';
-            Gebruiksfunctie_options_str  += '<option value="Sporthal ">Sporthal </option>';
-            Gebruiksfunctie_options_str  += '<option value="Trapveld">Trapveld</option>';
-            Gebruiksfunctie_options_str  += '<option value="Vijver">Vijver</option>';
-            Gebruiksfunctie_options_str  += '<option value="Vrije Speelruimte">Vrije Speelruimte</option>';
-            sel_Gebruiksfunctie.innerHTML = Gebruiksfunctie_options_str;
-            div_Gebruiksfunctie.appendChild(sel_Gebruiksfunctie);
-            var lab_Gebruiksfunctie = document.createElement('div');
-            lab_Gebruiksfunctie.innerHTML = 'Gebruiksfunctie';
-            lab_Gebruiksfunctie.className = 'filterlabel';
-            div_Gebruiksfunctie.appendChild(lab_Gebruiksfunctie);
-            var reset_Gebruiksfunctie = document.createElement('div');
-            reset_Gebruiksfunctie.innerHTML = 'clear filter';
-            reset_Gebruiksfunctie.className = 'filterlabel';
-            reset_Gebruiksfunctie.onclick = function() {
-                var options = document.getElementById("sel_Gebruiksfunctie").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Gebruiksfunctie.appendChild(reset_Gebruiksfunctie);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Thema = document.createElement('div');
-            div_Thema.id = "div_Thema";
-            div_Thema.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Thema);
-            sel_Thema = document.createElement('select');
-            sel_Thema.multiple = true;
-            sel_Thema.size = 3;
-            sel_Thema.id = "sel_Thema";
-            var Thema_options_str = "<option value='' unselected></option>";
-            sel_Thema.onchange = function(){filterFunc()};
-            Thema_options_str  += '<option value="Biodiversiteit">Biodiversiteit</option>';
-            Thema_options_str  += '<option value="Verkeer">Verkeer</option>';
-            Thema_options_str  += '<option value="Water">Water</option>';
-            sel_Thema.innerHTML = Thema_options_str;
-            div_Thema.appendChild(sel_Thema);
-            var lab_Thema = document.createElement('div');
-            lab_Thema.innerHTML = 'Thema';
-            lab_Thema.className = 'filterlabel';
-            div_Thema.appendChild(lab_Thema);
-            var reset_Thema = document.createElement('div');
-            reset_Thema.innerHTML = 'clear filter';
-            reset_Thema.className = 'filterlabel';
-            reset_Thema.onclick = function() {
-                var options = document.getElementById("sel_Thema").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Thema.appendChild(reset_Thema);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
-            div_Maatregelenvoordebomeninhetontwerp.id = "div_Maatregelenvoordebomeninhetontwerp";
-            div_Maatregelenvoordebomeninhetontwerp.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Maatregelenvoordebomeninhetontwerp);
-            sel_Maatregelenvoordebomeninhetontwerp = document.createElement('select');
-            sel_Maatregelenvoordebomeninhetontwerp.multiple = true;
-            sel_Maatregelenvoordebomeninhetontwerp.size = 2;
-            sel_Maatregelenvoordebomeninhetontwerp.id = "sel_Maatregelenvoordebomeninhetontwerp";
-            var Maatregelenvoordebomeninhetontwerp_options_str = "<option value='' unselected></option>";
-            sel_Maatregelenvoordebomeninhetontwerp.onchange = function(){filterFunc()};
-            Maatregelenvoordebomeninhetontwerp_options_str  += '<option value="GEEN maatregel(en) treffen">GEEN maatregel(en) treffen</option>';
-            Maatregelenvoordebomeninhetontwerp_options_str  += '<option value="WÉL maatregel(en) treffen">WÉL maatregel(en) treffen</option>';
-            sel_Maatregelenvoordebomeninhetontwerp.innerHTML = Maatregelenvoordebomeninhetontwerp_options_str;
-            div_Maatregelenvoordebomeninhetontwerp.appendChild(sel_Maatregelenvoordebomeninhetontwerp);
-            var lab_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
-            lab_Maatregelenvoordebomeninhetontwerp.innerHTML = 'Maatregelen voor de bomen in het ontwerp';
-            lab_Maatregelenvoordebomeninhetontwerp.className = 'filterlabel';
-            div_Maatregelenvoordebomeninhetontwerp.appendChild(lab_Maatregelenvoordebomeninhetontwerp);
-            var reset_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
-            reset_Maatregelenvoordebomeninhetontwerp.innerHTML = 'clear filter';
-            reset_Maatregelenvoordebomeninhetontwerp.className = 'filterlabel';
-            reset_Maatregelenvoordebomeninhetontwerp.onclick = function() {
-                var options = document.getElementById("sel_Maatregelenvoordebomeninhetontwerp").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Maatregelenvoordebomeninhetontwerp.appendChild(reset_Maatregelenvoordebomeninhetontwerp);
         </script>        
     </body>
 </html>
