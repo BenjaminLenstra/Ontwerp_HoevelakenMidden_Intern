@@ -65,7 +65,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[52.17060862129485,5.454447829034734],[52.172616925455515,5.467534474551991]]);
+        }).fitBounds([[52.16818007070844,5.440006846718005],[52.17621558614079,5.492355041938218]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -535,10 +535,10 @@
                         <td class="visible-with-data" id="Nieuwe situatie" colspan="2"><strong>Nieuwe situatie</strong><br />' + (feature.properties['Nieuwe situatie'] !== null ? '<img src="images/' + String(feature.properties['Nieuwe situatie']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['field_18'] !== null ? '<img src="images/' + String(feature.properties['field_18']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['field_18'] !== null ? autolinker.link(String(feature.properties['field_18']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['field_19'] !== null ? autolinker.link(String(feature.properties['field_19']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['field_19'] !== null ? '<img src="images/' + String(feature.properties['field_19']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -1063,7 +1063,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"Maatregelen voor de bomen in het ontwerp": "str","Thema": "str","Gebruiksfunctie": "str","Maatregel": "str"};
+        var Filters = {"Maatregel": "str","Maatregelen voor de bomen in het ontwerp": "str","Thema": "str","Gebruiksfunctie": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -1153,6 +1153,52 @@
           }
           })
         }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Maatregel = document.createElement('div');
+            div_Maatregel.id = "div_Maatregel";
+            div_Maatregel.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Maatregel);
+            sel_Maatregel = document.createElement('select');
+            sel_Maatregel.multiple = true;
+            sel_Maatregel.size = 10;
+            sel_Maatregel.id = "sel_Maatregel";
+            var Maatregel_options_str = "<option value='' unselected></option>";
+            sel_Maatregel.onchange = function(){filterFunc()};
+            Maatregel_options_str  += '<option value="NULL">NULL</option>';
+            Maatregel_options_str  += '<option value="Aanleg fietspad">Aanleg fietspad</option>';
+            Maatregel_options_str  += '<option value="Fietsstraat in asfalt">Fietsstraat in asfalt</option>';
+            Maatregel_options_str  += '<option value="Fietsstraat in asfalt; middenstrook met afwijkende toplaag">Fietsstraat in asfalt; middenstrook met afwijkende toplaag</option>';
+            Maatregel_options_str  += '<option value="Inboet">Inboet</option>';
+            Maatregel_options_str  += '<option value="Inboet;Snoeien">Inboet;Snoeien</option>';
+            Maatregel_options_str  += '<option value="Instellen schoolzone">Instellen schoolzone</option>';
+            Maatregel_options_str  += '<option value="Kappen">Kappen</option>';
+            Maatregel_options_str  += '<option value="Nieuwe inrichting hofje">Nieuwe inrichting hofje</option>';
+            Maatregel_options_str  += '<option value="Omvormen beheergroep middels inboet">Omvormen beheergroep middels inboet</option>';
+            Maatregel_options_str  += '<option value="Renoveren">Renoveren</option>';
+            Maatregel_options_str  += '<option value="Snoeien">Snoeien</option>';
+            Maatregel_options_str  += '<option value="Trottoir verwijderen">Trottoir verwijderen</option>';
+            Maatregel_options_str  += '<option value="Vervangen verharding">Vervangen verharding</option>';
+            Maatregel_options_str  += '<option value="Verwijderen parkeerstrook">Verwijderen parkeerstrook</option>';
+            Maatregel_options_str  += '<option value="Voedselbos">Voedselbos</option>';
+            Maatregel_options_str  += '<option value="Wortelschermen plaatsen">Wortelschermen plaatsen</option>';
+            sel_Maatregel.innerHTML = Maatregel_options_str;
+            div_Maatregel.appendChild(sel_Maatregel);
+            var lab_Maatregel = document.createElement('div');
+            lab_Maatregel.innerHTML = 'Maatregel';
+            lab_Maatregel.className = 'filterlabel';
+            div_Maatregel.appendChild(lab_Maatregel);
+            var reset_Maatregel = document.createElement('div');
+            reset_Maatregel.innerHTML = 'clear filter';
+            reset_Maatregel.className = 'filterlabel';
+            reset_Maatregel.onclick = function() {
+                var options = document.getElementById("sel_Maatregel").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Maatregel.appendChild(reset_Maatregel);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_Maatregelenvoordebomeninhetontwerp = document.createElement('div');
@@ -1257,52 +1303,6 @@
                 filterFunc();
             };
             div_Gebruiksfunctie.appendChild(reset_Gebruiksfunctie);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Maatregel = document.createElement('div');
-            div_Maatregel.id = "div_Maatregel";
-            div_Maatregel.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Maatregel);
-            sel_Maatregel = document.createElement('select');
-            sel_Maatregel.multiple = true;
-            sel_Maatregel.size = 10;
-            sel_Maatregel.id = "sel_Maatregel";
-            var Maatregel_options_str = "<option value='' unselected></option>";
-            sel_Maatregel.onchange = function(){filterFunc()};
-            Maatregel_options_str  += '<option value="NULL">NULL</option>';
-            Maatregel_options_str  += '<option value="Aanleg fietspad">Aanleg fietspad</option>';
-            Maatregel_options_str  += '<option value="Fietsstraat in asfalt">Fietsstraat in asfalt</option>';
-            Maatregel_options_str  += '<option value="Fietsstraat in asfalt; middenstrook met afwijkende toplaag">Fietsstraat in asfalt; middenstrook met afwijkende toplaag</option>';
-            Maatregel_options_str  += '<option value="Inboet">Inboet</option>';
-            Maatregel_options_str  += '<option value="Inboet;Snoeien">Inboet;Snoeien</option>';
-            Maatregel_options_str  += '<option value="Instellen schoolzone">Instellen schoolzone</option>';
-            Maatregel_options_str  += '<option value="Kappen">Kappen</option>';
-            Maatregel_options_str  += '<option value="Nieuwe inrichting hofje">Nieuwe inrichting hofje</option>';
-            Maatregel_options_str  += '<option value="Omvormen beheergroep middels inboet">Omvormen beheergroep middels inboet</option>';
-            Maatregel_options_str  += '<option value="Renoveren">Renoveren</option>';
-            Maatregel_options_str  += '<option value="Snoeien">Snoeien</option>';
-            Maatregel_options_str  += '<option value="Trottoir verwijderen">Trottoir verwijderen</option>';
-            Maatregel_options_str  += '<option value="Vervangen verharding">Vervangen verharding</option>';
-            Maatregel_options_str  += '<option value="Verwijderen parkeerstrook">Verwijderen parkeerstrook</option>';
-            Maatregel_options_str  += '<option value="Voedselbos">Voedselbos</option>';
-            Maatregel_options_str  += '<option value="Wortelschermen plaatsen">Wortelschermen plaatsen</option>';
-            sel_Maatregel.innerHTML = Maatregel_options_str;
-            div_Maatregel.appendChild(sel_Maatregel);
-            var lab_Maatregel = document.createElement('div');
-            lab_Maatregel.innerHTML = 'Maatregel';
-            lab_Maatregel.className = 'filterlabel';
-            div_Maatregel.appendChild(lab_Maatregel);
-            var reset_Maatregel = document.createElement('div');
-            reset_Maatregel.innerHTML = 'clear filter';
-            reset_Maatregel.className = 'filterlabel';
-            reset_Maatregel.onclick = function() {
-                var options = document.getElementById("sel_Maatregel").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Maatregel.appendChild(reset_Maatregel);
         </script>        
     </body>
 </html>
